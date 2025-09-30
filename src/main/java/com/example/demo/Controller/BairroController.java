@@ -6,15 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.demo.Models.UserModel;
-import com.example.demo.Services.UserService;
-import com.example.demo.dtos.UserDTO;
+import com.example.demo.Models.BairroModel;
+import com.example.demo.Services.BairroService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,34 +27,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping(value = "/users") // Base path for all endpoints in this controller
-public class UserController {
+@RequestMapping(value = "/bairros") // Base path for all endpoints in this controller
+public class BairroController {
     
     @Autowired // Injeção de dependência do repositório de usuários 
-    private UserService service; // Interface para operações de banco de dados
+    private BairroService service; // Interface para operações de banco de dados
 
 
      @GetMapping()
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserModel> listaNormal = service.getAll();
-        List<UserDTO> listaDtos = listaNormal.stream().map(usuario -> new UserDTO(usuario))
-				.collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(listaDtos);
+    public ResponseEntity<List<BairroModel>> getAllbairros() {
+        List<BairroModel> listaNormal = service.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(listaNormal);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable int id) {
-        UserModel user = service.find(id);
-        if (user != null) {
-            UserDTO dto = new UserDTO(user);
-            return ResponseEntity.status(HttpStatus.OK).body(dto);
+    public ResponseEntity<BairroModel> getbairroById(@PathVariable int id) {
+        BairroModel bairro = service.find(id);
+        if (bairro != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(bairro);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserModel> update(@RequestBody UserModel model, @PathVariable int id){
+    public ResponseEntity<BairroModel> update(@RequestBody BairroModel model, @PathVariable int id){
         model.setId(id); // Garante que o ID do modelo seja o mesmo do caminho
         model = service.update(model);
         
@@ -70,9 +65,8 @@ public class UserController {
     }
     
      @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
-        UserModel model = service.insert(dto);
-        // return new ResponseEntity(model, HttpStatus.CREATED);
+    public ResponseEntity<Void> insert(@RequestBody BairroModel objeto) {
+        BairroModel model = service.insert(objeto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(model.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
