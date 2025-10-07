@@ -8,36 +8,36 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Models.BairroModel;
-import com.example.demo.Repositories.BairroRepository;
+import com.example.demo.Models.TiposImoveisModel;
+import com.example.demo.Repositories.TiposImoveisRepository;
 
 @Service
-public class BairroService {
+public class TiposImoveisService {
     
 
     @Autowired
-    private BairroRepository repository;
+    private TiposImoveisRepository repository;
         
-    public List<BairroModel> getAll() {
-        List<BairroModel> list = repository.findAll();
+    public List<TiposImoveisModel> getAll() {
+        List<TiposImoveisModel> list = repository.findAll();
         return list;
     } 
 
-    public Page<BairroModel> getAll(Pageable pageable) {
-        Page<BairroModel> list = repository.findAll(pageable);
+    public Page<TiposImoveisModel> getAll(Pageable pageable) {
+        Page<TiposImoveisModel> list = repository.findAll(pageable);
         return list;
     }
 
-    public BairroModel find(Integer id) {
-        Optional<BairroModel> model = repository.findById(id);
+    public TiposImoveisModel find(Integer id) {
+        Optional<TiposImoveisModel> model = repository.findById(id);
         return model.orElse(null);
     }
 
-    public BairroModel insert(BairroModel model) {
+    public TiposImoveisModel insert(TiposImoveisModel model) {
         return repository.save(model);
     }
  
-    public BairroModel update(BairroModel model) {
+    public TiposImoveisModel update(TiposImoveisModel model) {
         try {
             if(find(model.getId())!=null){
                 return repository.save(model);

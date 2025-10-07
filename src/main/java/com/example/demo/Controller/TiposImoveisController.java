@@ -18,37 +18,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.Models.BairroModel;
-import com.example.demo.Services.BairroService;
+import com.example.demo.Models.TiposImoveisModel;
+import com.example.demo.Services.TiposImoveisService;
 
 @RestController
-@RequestMapping(value = "/bairros")
-public class BairroController {
+@RequestMapping(value = "/tiposImoveis")
+public class TiposImoveisController {
 
     @Autowired
-    private BairroService service;
+    private TiposImoveisService service;
 
     
     @GetMapping()
-    public ResponseEntity<List<BairroModel>> getAllBairros() {
-        List<BairroModel> list = service.getAll();
+    public ResponseEntity<List<TiposImoveisModel>> getAllBairros() {
+        List<TiposImoveisModel> list = service.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     } 
 
-    @GetMapping("/bairros-page")
-    public Page<BairroModel> getPosts(Pageable pageable) {
+    @GetMapping("/tiposImoveis-page")
+    public Page<TiposImoveisModel> getPosts(Pageable pageable) {
         return service.getAll(pageable);
     }
 
 
     @GetMapping(value = "/{id}")
-        public ResponseEntity<BairroModel> find(@PathVariable Integer id) {
-        BairroModel model = service.find(id);
+        public ResponseEntity<TiposImoveisModel> find(@PathVariable Integer id) {
+        TiposImoveisModel model = service.find(id);
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody BairroModel model) {
+    public ResponseEntity<Void> insert(@RequestBody TiposImoveisModel model) {
         model = service.insert(model);
         // return new ResponseEntity(model, HttpStatus.CREATED);
         URI uri =
@@ -57,7 +57,7 @@ public class BairroController {
         }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody BairroModel model, @PathVariable Integer id) {
+    public ResponseEntity<Void> update(@RequestBody TiposImoveisModel model, @PathVariable Integer id) {
         model.setId(id);
         model = service.update(model);
         return ResponseEntity.noContent().build();
