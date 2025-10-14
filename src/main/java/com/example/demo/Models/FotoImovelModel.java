@@ -2,59 +2,58 @@ package com.example.demo.Models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "bairros")
+@Table(name = "fotos_imoveis")
 @Getter
 @Setter
-public class BairroModel implements Serializable{
+public class FotoImovelModel implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome;
+    private String nomeArquivo;
 
-    private String cidade;
+    private String caminho;
 
-    private String estado;
+    private Boolean capa;
 
-    private String cepInicial;
+    private Integer ordem;
 
-    private String cepFinal;
-    /*    @OneToMany(mappedBy = "bairro", orphanRemoval = false)
-    @JsonManagedReference
-    private List<ImovelModel> imoveis = new ArrayList<>();
-     */
+    //private Integer imovelId; //chave estrangeira para o imóvel
 
-
-
-    public BairroModel(){};
-
-    public BairroModel(int id, String nome, String cidade, String estado, String cepInicial, String cepFinal){
-        super();
-        this.id =id;
-        this.nome=nome;
-        this.cidade=cidade;
-        this.estado=estado;
-        this.cepInicial=cepInicial;
-        this.cepFinal=cepFinal;
+    public FotoImovelModel(Integer id, String nomeArquivo, String caminho, Boolean capa, Integer ordem){
+        this.id = id;
+        this.nomeArquivo = nomeArquivo;
+        this.caminho = caminho;
+        this.capa = capa;
+        this.ordem = ordem;
     }
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "imovel_id")
+    private ImovelModel imovel;
+    
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         return result;
     }
 
@@ -66,22 +65,12 @@ public class BairroModel implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BairroModel other = (BairroModel) obj;
+        FotoImovelModel other = (FotoImovelModel) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (nome == null) {
-            if (other.nome != null)
-                return false;
-        } else if (!nome.equals(other.nome))
-            return false;
         return true;
-    }
-
-    
-
-
-  
+    }  
 }

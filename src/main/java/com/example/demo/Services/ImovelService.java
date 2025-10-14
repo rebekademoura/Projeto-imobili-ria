@@ -39,7 +39,6 @@ public class ImovelService {
         } catch (Exception e) {
             return null;
         }
-
     }
 
     public void delete(Integer id) {
